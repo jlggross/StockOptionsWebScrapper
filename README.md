@@ -57,3 +57,6 @@ Escrevi um tutorial detalhado do passo a passo para instalar o Python 3 no Windo
 
 Escrevi um tutorial com o passo a passo de como instalar o Chromedriver no Windows 10 no LinkedIn. O artigo pode ser acessado pelo link https://www.linkedin.com/pulse/como-instalar-o-chromedriver-windows-10-jo%25C3%25A3o-gross/.
 
+### Instalar o Selenium no Windows 10
+
+Escrevi um tutorial com o passo a passo de como instalar e testar o Selenium no Windows 10. O artigo está no LinkedIn e pode ser acesso pelo link https://www.linkedin.com/pulse/como-instalar-o-selenium-webdriver-windows-10-jo%25C3%25A3o-gross/?trackingId=cjHvNKvYjABYjH0VGHMFEg%3D%3D.
