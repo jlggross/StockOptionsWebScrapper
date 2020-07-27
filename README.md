@@ -16,6 +16,28 @@ Um conjunto das opções apresentadas no site da B3 não estão disponíveis no 
 
 Outros websites ou outros tipos de dados sobre as opções podem ser adicionados no futuro para que a coleta de dados seja ainda mais completa.
 
+## Pré-requisitos
+
+Esse projeto necessita dos seguints recursos de software:
+* Python 3 e pip3
+* Chromedirver
+* Selenium webdriver
+* Pacotes 'pandas' e 'openpyxl'
+
+Eu desenvolvi esse projeto no Windows 10, então os materiais apresentados a seguir são para esse sistema operacional. Porém se você estiver utilizando Linux ou Mac uma pesquisa rápida no Google vai te trazer tutoriais de como instalar esses softwares.
+
+### Instalar o Python 3 no Windows 10
+
+Escrevi um tutorial detalhado do passo a passo para instalar o Python 3 no Windows 10 no LinkedIn. O artigo pode ser acessado pelo link https://www.linkedin.com/pulse/como-instalar-o-python-3-windows-10-jo%25C3%25A3o-gross/.
+
+### Instalar o Chromedriver no Windows 10
+
+Escrevi um tutorial com o passo a passo de como instalar o Chromedriver no Windows 10 no LinkedIn. O artigo pode ser acessado pelo link https://www.linkedin.com/pulse/como-instalar-o-chromedriver-windows-10-jo%25C3%25A3o-gross/.
+
+### Instalar o Selenium no Windows 10
+
+Escrevi um tutorial com o passo a passo de como instalar e testar o Selenium no Windows 10. O artigo está no LinkedIn e pode ser acesso pelo link https://www.linkedin.com/pulse/como-instalar-o-selenium-webdriver-windows-10-jo%25C3%25A3o-gross/?trackingId=cjHvNKvYjABYjH0VGHMFEg%3D%3D.
+
 ## Tipos de dados
 
 Cada website fornece informações únicas, porém algumas informações são comuns entre eles. Dentre as informações comuns aquelas que buscamos são apresentadas a seguir:
@@ -39,24 +61,22 @@ Abaixo você pode ser um exemplo do resultado da coleta do programa:
 | AZUL4 | AZULT950 | Não | Put | 9,5 | 17/08/2020 |
 | AZUL4 | AZULT152 | Não | Put | 15,25 | 17/08/2020 |
 
-## Pré-requisitos
+## Estrutura do projeto
 
-Esse projeto necessita dos seguints recursos de software:
-* Python 3 e pip3
-* Chromedirver
-* Selenium webdriver
-* Pacotes 'pandas' e 'openpyxl'
+O projeto possui um arquivo principal chamado de **main.py** que faz chamadas às funções de coleta de códigos de ações e códigos de opções e demais dados para os websites até o momento suportados. Cada webiste possui um arquivo em separado com as funções de coleta de dados específicas. As funções core do projeto são as seguintes:
 
-Eu desenvolvi esse projeto no Windows 10, então os materiais apresentados a seguir são para esse sistema operacional. Porém se você estiver utilizando Linux ou Mac uma pesquisa rápida no Google vai te trazer tutoriais de como instalar esses softwares.
+*opcoesNet_collectStockTickers()* : Entra no website opcoes.net e coleta todos os tickers (códigos) das ações de possuem opções. Os tickers são utilizados posteriormente para acessar a página específica de cada ação com suas opções.
 
-### Instalar o Python 3 no Windows 10
+*opcoesNet_getStockOptionsTickers(stockTickers)* : A partir dos tickers de ações, entra na ágina de cada ação e coleta os tickers, strike, vencimento e tipo de todas as opções disponíveis daquela ação.
 
-Escrevi um tutorial detalhado do passo a passo para instalar o Python 3 no Windows 10 no LinkedIn. O artigo pode ser acessado pelo link https://www.linkedin.com/pulse/como-instalar-o-python-3-windows-10-jo%25C3%25A3o-gross/.
+*b3_FM_collectStockTickers()* : Entra no website da B3 e coleta todos os tickers (códigos) das ações de possuem opções. Os tickers são utilizados posteriormente para acessar a página específica de cada ação com suas opções.
 
-### Instalar o Chromedriver no Windows 10
+*b3_FM_getStockOptionsTickers(stockTickers)* : A partir dos tickers de ações, entra na ágina de cada ação e coleta os tickers, strike, vencimento e tipo de todas as opções disponíveis daquela ação.
 
-Escrevi um tutorial com o passo a passo de como instalar o Chromedriver no Windows 10 no LinkedIn. O artigo pode ser acessado pelo link https://www.linkedin.com/pulse/como-instalar-o-chromedriver-windows-10-jo%25C3%25A3o-gross/.
+## Apresentação dos dados
 
-### Instalar o Selenium no Windows 10
+Após a coleta os dados são agregados em um único DataFrame e dados repetidos são excluídos. O DataFrame é dividido em outros dois, um para Calls e um para Puts e o conteúdo é exportado para uma planilha .xslx. O resultado da planilha pode ser visualizado na pasta raiz deste projeto.
 
-Escrevi um tutorial com o passo a passo de como instalar e testar o Selenium no Windows 10. O artigo está no LinkedIn e pode ser acesso pelo link https://www.linkedin.com/pulse/como-instalar-o-selenium-webdriver-windows-10-jo%25C3%25A3o-gross/?trackingId=cjHvNKvYjABYjH0VGHMFEg%3D%3D.
+## Configurações para acesso à página opcoes.net
+
+O arquivo **optionsOpcoesNet.py** possui a função *opcoesNet_getStockOptionsTickers(stockTickers)* que realiza a coleta dos dados sobre opções. Nesta função há a variavel **deadlines** que descreve para quais vencimentos iremos pesquisar as opções. Fique atento a esta variável, pois ela precisa estar configurada com as strings dos vencimentos que você deseja coletar as opções, caso contrário a coleta vai dar errado.
