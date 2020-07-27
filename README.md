@@ -49,7 +49,11 @@ Esse projeto necessita dos seguints recursos de software:
 
 Eu desenvolvi esse projeto no Windows 10, então os materiais apresentados a seguir são para esse sistema operacional. Porém se você estiver utilizando Linux ou Mac uma pesquisa rápida no Google vai te trazer tutoriais de como instalar esses softwares.
 
-### Como instalar o Python 3 no Windows 10
+### Instalar o Python 3 no Windows 10
 
+Escrevi um tutorial detalhado do passo a passo para instalar o Python 3 no Windows 10 no LinkedIn. O artigo pode ser acessado pelo link https://www.linkedin.com/pulse/como-instalar-o-python-3-windows-10-jo%25C3%25A3o-gross/.
 
+### Instalar o Chromedriver no Windows 10
+
+Escrevi um tutorial com o passo a passo de como instalar o Chromedriver no Windows 10 no LinkedIn. O artigo pode ser acessado pelo link https://www.linkedin.com/pulse/como-instalar-o-chromedriver-windows-10-jo%25C3%25A3o-gross/.
 
