@@ -38,6 +38,15 @@ Escrevi um tutorial com o passo a passo de como instalar o Chromedriver no Windo
 
 Escrevi um tutorial com o passo a passo de como instalar e testar o Selenium no Windows 10. O artigo está no LinkedIn e pode ser acesso pelo link https://www.linkedin.com/pulse/como-instalar-o-selenium-webdriver-windows-10-jo%25C3%25A3o-gross/?trackingId=cjHvNKvYjABYjH0VGHMFEg%3D%3D.
 
+### Instalar pacotes pandas e openpyxl
+
+Se você já seguiu os tutoriais anteriores, então basta entrar no cmd e digitar:
+
+```pip3 install pandas openpyxl```
+
+Utilizaremos o pandas para criar DataFrames e exportar os dados e o openpyxl para conseguir criar um arquivo .xlsx de destino.
+
+
 ## Tipos de dados
 
 Cada website fornece informações únicas, porém algumas informações são comuns entre eles. Dentre as informações comuns aquelas que buscamos são apresentadas a seguir:
