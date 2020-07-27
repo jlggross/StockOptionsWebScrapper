@@ -83,7 +83,8 @@ def b3_FM_getStockOptionsTickers(tickers):
             new_ticker["Ação"] = ticker
             new_ticker["Opção"] = tokens[0]
             new_ticker["Strike"] = float(tokens[1].replace(",", ""))
-            new_ticker["Vencimento"] = tokens[2]
+            date = tokens[2].split("/")
+            new_ticker["Vencimento"] = date[2] + "-" + date[1] + "-" + date[0]
             new_ticker["Tipo"] = tokens[3]
             new_ticker["FM"] = "Sim"
             df_FM_options = df_FM_options.append(new_ticker, ignore_index=True)
