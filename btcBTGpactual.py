@@ -175,7 +175,7 @@ def BTGpactual_getBTC(driver):
     except TimeoutException:
         print("Timeout!")
 
-    #print(xpath[:-3])
+    driver.implicitly_wait(3)
     elements = driver.find_elements_by_xpath(xpath[:-3])
     print("Collecting BTC:")
     for i, element in enumerate(elements):
