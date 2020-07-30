@@ -2,6 +2,8 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import pandas as pd
 
+"""
+"""
 class Checkbox:
 
     def __init__(self, driver, checkbox_id):
@@ -20,6 +22,8 @@ class Checkbox:
         if not self.is_enabled():
             self.checkbox.click()
 
+"""
+"""
 class RadioButton:
 
     def __init__(self, driver, radiobutton_id):
@@ -63,15 +67,15 @@ serie_put = {
     'X': ('12-Dez', '2020-12-21')
 }
 
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-import pandas as pd
-
+"""
+"""
 def exportarExcel(df):
     df.drop_duplicates(subset="Opção", keep="first", inplace=True)
     df.reset_index(drop=True, inplace=True)
     df.to_excel("opcoesLREN3.xlsx")
 
+"""
+"""
 def coletaDados(driver, ticker):
     tableOp = driver.find_element_by_id("tblListaOpc")
     rows = tableOp.find_elements(By.TAG_NAME, "tr")
@@ -101,6 +105,9 @@ def coletaDados(driver, ticker):
         df_stockOptions = df_stockOptions.append(new_derivative, ignore_index=True)
     return df_stockOptions
 
+"""
+Main - Start from here
+"""
 
 # Cria o driver para navegar na web
 driver = webdriver.Chrome()

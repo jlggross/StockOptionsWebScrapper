@@ -9,10 +9,11 @@ class Checkbox:
         return self.checkbox_id
 
     def is_enabled(self):
-        return self.driver.execute_script("return document.getElementById('{}').checked".format(self.checkbox_id))
+        return self.driver.execute_script(
+            "return document.getElementById('{}').checked".format(self.checkbox_id))
 
     def click_checkbox(self):
-        if (not self.is_enabled()):
+        if not self.is_enabled():
             self.checkbox.click()
     # else:
     #	print("Checkbox " + self.checkbox_id + " is already set")

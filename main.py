@@ -28,12 +28,14 @@ P.S.: This project has been written in English, but you can communicate with me 
 """
 
 # Other important packages
+from selenium import webdriver
 import pandas as pd
 from datetime import datetime
 
 # My files
-from optionsOpcoesNet import opcoesNet_collectStockTickers, opcoesNet_getStockOptionsTickers
-from optionsB3 import b3_FM_collectStockTickers, b3_FM_getStockOptionsTickers
+from opcoesOpcoesNet import opcoesNet_collectStockTickers, opcoesNet_getStockOptionsTickers
+from opcoesB3 import b3_FM_collectStockTickers, b3_FM_getStockOptionsTickers
+from btcBTGpactual import BTGpactual_printBTCdata, BTGpactual_getBTC, BTGpactual_printTreemap
 
 """
 Function:
@@ -44,7 +46,6 @@ Parameters:
     * *args : Variable number of DataFrames.
 """
 def exportDFToExcel(*args):
-
     df_calls = pd.DataFrame()
     df_puts = pd.DataFrame()
 
@@ -60,29 +61,61 @@ def exportDFToExcel(*args):
     now = datetime.now()
     current_time = now.strftime("%Y-%m-%d_%H-%M-%S")
 
-    with pd.ExcelWriter("opcoes" + current_time + ".xlsx") as writer:
+    with pd.ExcelWriter("output/opcoes" + current_time + ".xlsx") as writer:
         columns = ["Ação", "Opção", "FM", "Tipo", "Strike", "Vencimento"]
         df_calls[columns].to_excel(writer, sheet_name="Call")
         df_puts[columns].to_excel(writer, sheet_name="Put")
+
+"""
+Function: 
+    createWebdriver
+Description: 
+    Creates a Chromedriver to surf the web and provides a driver
+    that can be manipulated to access the website's content. 
+Return:
+    * driver : Chromedriver to access a website.  
+"""
+def createWebdriver():
+    # Create driver with Chromedriver
+    driver = webdriver.Chrome()
+    driver.set_window_position(2000, 0)
+    #driver.minimize_window()
+    driver.maximize_window()
+
+    return driver
 
 """
 Main - Where everything starts. 
 """
 if "__main__" == __name__:
 
+    driver = createWebdriver()
+
+    # Get BTC from BTG Pactual
+    print("Web Scrapping: BTG Pactual")
+    df_btcBTG = BTGpactual_getBTC(driver)
+    BTGpactual_printBTCdata(df_btcBTG, bins=20)
+    BTGpactual_printTreemap(df_btcBTG, bins=20)
+
     # Web scrape stock options in Opcoes.net
+    print("\n")
     print("Web Scrapping: Opcoes.net")
-    stockTickers = opcoesNet_collectStockTickers()
-    df_opcoesNet = opcoesNet_getStockOptionsTickers(stockTickers)
+    stockTickers = opcoesNet_collectStockTickers(driver)
+    df_opcoesNet = opcoesNet_getStockOptionsTickers(driver, stockTickers)
 
     # Web scrape stock options in B3
     print("\n")
     print("Web Scrapping: B3 FM")
-    stockTickers = b3_FM_collectStockTickers()
-    df_B3_FM = b3_FM_getStockOptionsTickers(stockTickers)
+    stockTickers = b3_FM_collectStockTickers(driver)
+    df_B3_FM = b3_FM_getStockOptionsTickers(driver, stockTickers)
 
-    # Export DataFrame to .xlsx
     print(df_opcoesNet[["Ação", "Opção", "FM", "Tipo", "Strike", "Vencimento"]])
     print(df_B3_FM[["Ação", "Opção", "FM", "Tipo", "Strike", "Vencimento"]])
 
+    # Export DataFrame to .xlsx
+    print("Exportando DataFrame Opções...")
     exportDFToExcel(df_opcoesNet, df_B3_FM)
+    print("Concluído.")
+
+    # Close the webdriver
+    driver.quit()

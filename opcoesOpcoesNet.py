@@ -1,4 +1,3 @@
-from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -13,35 +12,17 @@ from variables import serie_put
 
 """
 Function: 
-    opcoesNet_createWebdriver
-Description: 
-    Creates a Chromedriver to surf the web and provides a driver
-    that can be manipulated to access the website's content. 
-Return:
-    * driver : Chromedriver to access a website.  
-"""
-def opcoesNet_createWebdriver():
-    # Create driver with Chromedriver
-    driver = webdriver.Chrome()
-    driver.set_window_position(2000, 0)
-    driver.minimize_window()
-    # driver.maximize_window()
-
-    return driver
-
-"""
-Function: 
     opcoesNet_collectStockTickers
 Description: 
     Enters the website and collect all the available tickers that have
     options. 
+Parameters:
+    * driver : driver to access urls. 
 Return:
     * tickers : Tickers from stocks that have options. 
-
 """
-def opcoesNet_collectStockTickers():
-    # Create driver and enter website
-    driver = opcoesNet_createWebdriver()
+def opcoesNet_collectStockTickers(driver):
+    # Enter website
     driver.get("https://opcoes.net.br/opcoes/bovespa")
 
     select_name = "IdAcao" # Name of the selector "Ativos"
@@ -50,28 +31,25 @@ def opcoesNet_collectStockTickers():
     tickers = [element.strip() for element in elements.text.split('\n')]
     print(sorted(tickers[1:-1]))
 
-    # Close Chromedriver
-    driver.quit()
-
     return sorted(tickers[1:-1])
 
 """
 Function: 
     opcoesNet_getStockOptionsTickers
 Description: 
-    Enters the website and collect all the available stock options tickers
+    Enters the website and collect all the available stock options tickers.
 Parameters:  
-    * tickers : Tickers that the website has options for
+    * driver : Chromedriver to access a website.  
+    * tickers : Tickers that the website has options for.
 Return:
-    * df_stockOptions : DataFrame with stock options from Opcoes.net 
+    * df_stockOptions : DataFrame with stock options from Opcoes.net. 
 """
-def opcoesNet_getStockOptionsTickers(tickers):
+def opcoesNet_getStockOptionsTickers(driver, tickers):
     # Create DataFrame for the derivatives
     df_stockOptions = pd.DataFrame(columns=["Ação", "Opção", "Série", "Mês",
                                             "Vencimento", "FM", "Tipo", "Mod.",
                                             "Strike"])
 
-    driver = opcoesNet_createWebdriver()
     for ticker in tickers:
         driver.get("https://opcoes.net.br/opcoes/bovespa/" + ticker)
 
@@ -137,8 +115,5 @@ def opcoesNet_getStockOptionsTickers(tickers):
                 else:
                     break
             df_stockOptions = df_stockOptions.append(new_derivative, ignore_index=True)
-
-    # Close Chromedriver
-    driver.quit()
 
     return df_stockOptions

@@ -1,23 +1,4 @@
-from selenium import webdriver
 import pandas as pd
-
-"""
-Function: 
-    b3_FM_createWebdriver
-Description: 
-    Creates a Chromedriver to surf the web and provides a driver
-    that can be manipulated to access the website's content. 
-Return:
-    * driver : Chromedriver to access a website.  
-"""
-def b3_FM_createWebdriver():
-    # Create driver with Chromedriver
-    driver = webdriver.Chrome()
-    driver.set_window_position(2000, 0)
-    driver.minimize_window()
-    # driver.maximize_window()
-
-    return driver
 
 """
 Function: 
@@ -25,12 +6,13 @@ Function:
 Description: 
     Enters the website and collect all tickers that have options with Market Former
     (Formador de Mercado - FM).  
+Parameters:
+    * driver : Chromedriver to access a website.  
 Return:
     * tickers : Tickers from stocks that have options with FM.
 """
-def b3_FM_collectStockTickers():
-    # Create driver and enter page
-    driver = b3_FM_createWebdriver()
+def b3_FM_collectStockTickers(driver):
+    # Enter page
     driver.get("http://bvmf.bmfbovespa.com.br/formador-de-mercado/formador-opcoes.html")
 
     # Get stocks tickers
@@ -38,9 +20,6 @@ def b3_FM_collectStockTickers():
     tickers = [element.text.split(" ")[0] for element in elements]
     tickers = tickers[4:]
     print(sorted(tickers))
-
-    # Close Chromedriver
-    driver.quit()
 
     return sorted(tickers)
 
@@ -51,15 +30,13 @@ Description:
     Enters the website and collect all the available stock options tickers that have 
     Market Former (Formador de Mercado - FM).  
 Parameters:  
-    * tickers : Tickers that the website has options for 
+    * driver : Chromedriver to access a website.  
+    * tickers : Tickers that the website has options for. 
 Return:
-    * df_FM_options : DataFrame with stock options from B3 that have FM
+    * df_FM_options : DataFrame with stock options from B3 that have FM.
 """
-def b3_FM_getStockOptionsTickers(tickers):
+def b3_FM_getStockOptionsTickers(driver, tickers):
     base_url = "http://bvmf.bmfbovespa.com.br/formador-de-mercado/formador-opcoes-detalhe.html?asset="
-
-    # Create driver
-    driver = b3_FM_createWebdriver()
 
     # Create DataFrame
     df_FM_options = pd.DataFrame(columns=["Ação", "Opção", "Tipo", "Strike", "Vencimento", "FM"])
@@ -88,8 +65,5 @@ def b3_FM_getStockOptionsTickers(tickers):
             new_ticker["Tipo"] = tokens[3]
             new_ticker["FM"] = "Sim"
             df_FM_options = df_FM_options.append(new_ticker, ignore_index=True)
-
-    # Close Chromedriver
-    driver.quit()
 
     return df_FM_options
